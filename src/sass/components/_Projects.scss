@@ -1,0 +1,39 @@
+.project {
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    gap: 1rem;
+    // width: 98%;
+    padding: 1rem;
+    margin: 0 auto;
+    height: 90rem;
+    max-height: 90rem;
+
+    &__container {
+        background-color: #fff;
+        border-radius: 1rem;
+        padding: 3rem;
+        border: .5px solid #d9d9d9;
+    }
+
+    &__item {
+        font-size: var(--primary-font);
+        font-size: 2rem;
+        padding: 1rem;
+        height: 10rem;
+        box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        border-radius: 1rem;
+        margin: 2rem 0;
+
+
+        &--dragging {
+            background-color: blue;
+        }
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .project {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: unset;
+    }
+}
