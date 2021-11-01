@@ -1,11 +1,11 @@
-import Project from './components/Project';
-
+import Navbar from './components/Navbar';
+import DragList from './DragList';
 
 const App = () => {
   return (
     <>
-      <h1>Taskify</h1>
-      <Project />
+      <Navbar/>
+      <DragList/>
     </>
   );
 }
