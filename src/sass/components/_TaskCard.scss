@@ -1,0 +1,21 @@
+.task {
+
+
+
+    &__container {
+        border: 1px solid lightgrey;
+        border-radius: 2px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+
+        
+        &--isDragging {
+            border: 1px solid lightgrey;
+            border-radius: 2px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background-color: lightblue;
+        }
+    }
+
+}
