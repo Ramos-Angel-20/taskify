@@ -1,14 +1,20 @@
 import { createContext } from 'react';
 
 
-const projectsContext = createContext({
+const ProjectsContext = createContext({
     projects: [],
-    tasks: [],
-    lists: [],
+    tasks: {},
+    columns: {},
+    columnOrder: [],
+    changeColumnOrder: (newOrderArray) => {},
     addProject: (title) => {},
     deleteProject: (id) => {},
     addTask: (title, body) => {},
-    deleteTask: (id) => {}
+    deleteTask: (id) => {},
+    getProjects: (userId) => {},
+    getCurrentProject: (projectId) => {},
+    setColumns: (newColumns, columnId) => {},
+    setTasks: (newTasks) => {} 
 });
 
-export default projectsContext;
+export default ProjectsContext;

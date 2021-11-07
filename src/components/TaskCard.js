@@ -1,16 +1,14 @@
 import { Draggable } from 'react-beautiful-dnd';
 
-const TaskCard = props => {
+const TaskCard = (props) => {
+    
+    //TODO: Agregar la fecha de creacion de la task...
+    
     return (
         <Draggable draggableId={props.task.id} index={props.index}>
             {(provided, snapshot) => (
-                <div
-                    className={`${snapshot.isDragging ? 'task__container--isDragging' : 'task__container'}`}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    ref={provided.innerRef}
-                >
-                    {props.task.content}
+                <div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps} className={`${!snapshot.isDragging ? 'taskCard' : 'taskCard--isDragging'}`}>
+                    <p>{props.task.description}</p>
                 </div>
             )}
         </Draggable>

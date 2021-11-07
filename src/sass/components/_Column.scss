@@ -1,6 +1,5 @@
 .column {
 
-
     &__container {
         margin: 1rem;
         border: 1px solid lightgrey;
@@ -17,6 +16,9 @@
 
     &__list {
         padding: 1rem;
+        border: 1px solid lightgrey;
+        min-height: 30rem;
+        border-radius: 2px;
     }
 
 }

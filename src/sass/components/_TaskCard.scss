@@ -1,21 +1,17 @@
-.task {
+.taskCard {
+    background-color: #fff;
+    max-height: 10rem;
+    height: 10rem;
+    border-radius: .5rem;
+    margin: 1rem 0;
+    
 
 
-
-    &__container {
-        border: 1px solid lightgrey;
-        border-radius: 2px;
-        padding: 1rem;
-        margin-bottom: 1rem;
-
-        
-        &--isDragging {
-            border: 1px solid lightgrey;
-            border-radius: 2px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            background-color: lightblue;
-        }
+    &--isDragging {
+        background-color: lightgrey;
+        max-height: 10rem;
+        height: 10rem;
+        border-radius: .5rem;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
     }
-
 }

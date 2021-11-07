@@ -1,0 +1,11 @@
+// Este es el contenedor de las listas que tiene un proyecto.
+
+.project {
+    margin: 0 auto;
+    background-color: lightgreen;
+    padding: 3rem 2rem;
+    
+    display: flex;
+    justify-content: space-around;
+    overflow-x: auto; //Para recorrer las tasks a un lado.
+}

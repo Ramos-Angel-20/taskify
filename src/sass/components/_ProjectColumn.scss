@@ -1,0 +1,30 @@
+.projectColumn {
+    // background-color: red;
+    border-radius: 1rem;
+    min-height: 80rem;
+    width: 48rem;
+
+
+    &__header {
+        width: 100%;
+        background-color: #fff;
+        border-radius: .6rem;
+        height: 6rem;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        
+        & p {
+            font-size: 3rem;
+            font-weight: 800;
+        }
+    }
+
+    &__container {
+        min-height: 75rem;
+        background-color: red;
+        display: flex;
+        flex-direction: column;
+    }
+}

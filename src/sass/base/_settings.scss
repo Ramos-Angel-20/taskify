@@ -30,3 +30,9 @@ img {
     max-width: 100%;
     display: block;
 }
+
+main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(40rem, 1fr));
+    gap: 2rem;
+}
