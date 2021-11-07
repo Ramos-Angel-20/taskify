@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
 const AddTaskCard = () => {
-    console.log('AddTaskCard');
+    
     const [inputIsOpen, setInputIsOpen] = useState(false);
+    const [taskDescription, setTaskDescription] = useState('');
     
     const openInputHandler = () => {
         setInputIsOpen(true);
@@ -10,6 +11,11 @@ const AddTaskCard = () => {
 
     const closeIputHandler = () => {
         setInputIsOpen(false);
+        setTaskDescription('');
+    }
+
+    const taskDescriptionChangeHandler = e => {
+        setTaskDescription(e.target.value);
     }
     
 
@@ -18,7 +24,7 @@ const AddTaskCard = () => {
             {
                 inputIsOpen ? (
                     <div className="addTaskCard__input-field">
-                        <input type="text" placeholder='description...'/>
+                        <input type="text" placeholder='description...'  onChange={taskDescriptionChangeHandler} value={taskDescription}/>
                         
                         <div className="addTaskCard__input-field__actions">
                             <button>Add</button>

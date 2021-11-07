@@ -27,6 +27,7 @@
             padding: .5rem;
             font-size: 1.6rem;
             flex-grow: 1;
+            height: 4rem;
         }
 
         
@@ -49,6 +50,7 @@
                 color: #fff;
                 height: 4rem;
                 width: 100%;
+                cursor: pointer;
 
 
                 &:nth-child(2) {

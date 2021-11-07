@@ -138,7 +138,7 @@ const ProjectsProvider = props => {
 
         getProjects(userId).then(res => {
 
-            console.log(res);
+            dispatchProjectsAction({type: GET_PROJECTS, payload: res});
 
         }).catch(err => {
 
@@ -192,11 +192,11 @@ const ProjectsProvider = props => {
                 tasksList[task.id] = task;
             }
 
-            console.log({...taskColumns})
+            // console.log({...taskColumns})
 
-            console.log({...tasksList});
-            console.log({...taskColumns}); //FIXME: NO TRAE TODAS LAS TASKS DE TODAS LAS COLUMAS.
-            console.log(columnOrder);
+            // console.log({...tasksList});
+            // console.log({...taskColumns}); 
+            // console.log(columnOrder);
             
             
 
@@ -225,7 +225,7 @@ const ProjectsProvider = props => {
             }
         });
     }
-    //TODO: VAMOS AQUI
+  
     const setColumnsHandler = (newColumn, columnId) => {
         dispatchProjectsAction({
             type: SET_COLUMNS, payload: {

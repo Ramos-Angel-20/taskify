@@ -12,7 +12,7 @@ const Project = (props) => {
     const { getCurrentProject, columnOrder, columns, tasks, changeColumnOrder, setColumns, setTasks } = useContext(ProjectsContext);
 
     useEffect(() => {
-        getCurrentProject('e0cd9222-f747-43e3-bd6c-0dd561bfbf37');
+        getCurrentProject('2b5269a6-c218-442b-880c-8ba2693d8323');
 
     }, [getCurrentProject]);
 
