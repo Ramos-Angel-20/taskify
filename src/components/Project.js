@@ -4,8 +4,9 @@ import { useEffect, useContext } from 'react';
 import ProjectColumn from './ProjectColumn';
 import ProjectsContext from '../context/projects-context';
 import { changeTaskFromList } from '../lib/apiService';
-import { useState } from 'react';
 
+
+//Al parecer esta madre ya es funcional...
 const Project = (props) => {
 
     const { getCurrentProject, columnOrder, columns, tasks, changeColumnOrder, setColumns, setTasks } = useContext(ProjectsContext);
