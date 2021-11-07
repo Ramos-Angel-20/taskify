@@ -1,0 +1,77 @@
+.addTaskCard {
+    background-color: #fff;
+    border-radius: 1rem;
+    margin: 1rem 0;
+    border: 1px solid lightgray;
+    padding: 2rem;
+    height: auto;
+    max-height: 18rem;
+    transition: height 150ms ease;
+
+
+
+
+    &__input-field {
+        
+        
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        animation: input-fade-in 200ms ease-in forwards;
+
+
+        & input {
+            border-radius: .8rem;
+            border: 1px solid lightgrey;
+            outline: none;
+            padding: .5rem;
+            font-size: 1.6rem;
+            flex-grow: 1;
+        }
+
+        
+        
+        
+        
+        &__actions {
+            width: 100%;            
+            display: flex;
+            gap: 1rem;
+
+
+            & button {
+                background-color: var(--primary-color);
+                border: none;
+                outline: none;
+                border-radius: .8rem;
+                font-size: 1.8rem;
+                font-family: var(--primary-font);
+                color: #fff;
+                height: 4rem;
+                width: 100%;
+
+
+                &:nth-child(2) {
+                    background-color: red;
+                }
+            }
+        }
+    }
+
+
+
+
+    & p:hover {
+        cursor: pointer;
+    }
+}
+
+@keyframes input-fade-in {
+    from {
+        // transform: scale(0);
+        opacity: 0;
+    } to {
+        // transform: scale(1);
+        opacity: 1;
+    }
+}

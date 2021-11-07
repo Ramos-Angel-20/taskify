@@ -1,9 +1,10 @@
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import TaskCard from './TaskCard';
+import AddTaskCard from './AddTaskCard';
 
 
 const ProjectColumn = ({ column, tasks, index }) => {
-
+    console.log(index);
     return (
         <Draggable draggableId={column.id} index={index}>
             {(provided) => (
@@ -19,7 +20,7 @@ const ProjectColumn = ({ column, tasks, index }) => {
                                 
                                 {tasks.map((task, index) => <TaskCard key={task.id} task={task} index={index}/>)}
                                 {provided.placeholder}
-                                <h2>Add a new task Component</h2>
+                                <AddTaskCard/>
                             </div>
                         )}
                     </Droppable>

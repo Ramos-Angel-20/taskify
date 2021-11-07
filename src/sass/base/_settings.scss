@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
 
 * {
     margin: 0;
@@ -8,6 +9,7 @@
 
 :root {
     --primary-font:  'Nunito', sans-serif;
+    --secundary-font: 'Inter', sans-serif;
 
     --primary-color: #19864B;
     --container-background-color: rgb(238, 238, 238);
@@ -19,7 +21,7 @@ html {
 
 body {
     font-family: var(--primary-font);
-    font-size: 2rem; // TODO: Provisonal, cambiar a 1.6rem
+    font-size: 1.6rem;
 }
 
 li {

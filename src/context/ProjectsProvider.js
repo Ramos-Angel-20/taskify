@@ -166,6 +166,7 @@ const ProjectsProvider = props => {
                     if (task.columnId === columnId) {
                         return task;
                     }
+
                 });
 
                 if (!tasksIds[0]) {

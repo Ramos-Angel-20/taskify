@@ -1,17 +1,39 @@
 .taskCard {
     background-color: #fff;
-    max-height: 10rem;
-    height: 10rem;
-    border-radius: .5rem;
+    border-radius: 1rem;
     margin: 1rem 0;
+    border: 1px solid lightgray;
+    padding: 2rem;
+    height: auto;
+    max-height: 18rem;
+    
+    &__description {
+        min-height: 4rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        // background: red;
+        margin-bottom: 2rem;
+        font-size: 2.2rem;
+        font-weight: 600;
+        
+    }
+
+
+
+
+    &__date {
+        font-size: 1.6rem;
+    }
     
 
 
     &--isDragging {
         background-color: lightgrey;
-        max-height: 10rem;
-        height: 10rem;
-        border-radius: .5rem;
+        padding: 2rem;
+        border-radius: 1rem;
         box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        opacity: 0.6;
+        
     }
 }

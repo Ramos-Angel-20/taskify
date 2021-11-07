@@ -8,11 +8,11 @@ import { changeTaskFromList } from '../lib/apiService';
 
 //Al parecer esta madre ya es funcional...
 const Project = (props) => {
-
+    console.log('hola');
     const { getCurrentProject, columnOrder, columns, tasks, changeColumnOrder, setColumns, setTasks } = useContext(ProjectsContext);
 
     useEffect(() => {
-        getCurrentProject('05c940c2-f23e-4222-b5d0-078c9c799d83');
+        getCurrentProject('e0cd9222-f747-43e3-bd6c-0dd561bfbf37');
 
     }, [getCurrentProject]);
 
