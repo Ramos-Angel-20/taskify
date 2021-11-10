@@ -4,7 +4,6 @@ import AddTaskCard from './AddTaskCard';
 
 
 const ProjectColumn = ({ column, tasks, index }) => {
-    console.log(index);
     return (
         <Draggable draggableId={column.id} index={index}>
             {(provided) => (
@@ -19,8 +18,11 @@ const ProjectColumn = ({ column, tasks, index }) => {
                             <div ref={provided.innerRef} {...provided.droppableProps} className='projectColumn__container'>
                                 
                                 {tasks.map((task, index) => <TaskCard key={task.id} task={task} index={index}/>)}
+                                
+                                
                                 {provided.placeholder}
-                                <AddTaskCard/>
+                                
+                                <AddTaskCard columnId={column.id}/>
                             </div>
                         )}
                     </Droppable>

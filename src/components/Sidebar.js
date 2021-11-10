@@ -2,6 +2,7 @@ import { FiPlusSquare } from 'react-icons/fi';
 
 import { useContext } from 'react';
 
+import ProjectListItem from './ProjectListItem';
 import ProjectsContext from '../context/projects-context';
 
 const Sidebar = () => {
@@ -19,22 +20,20 @@ const Sidebar = () => {
 
 
                 <div className="sidebar__projects__header">
-                    <p>Proyects <span>(2)</span></p>
+                    <p>Proyects <span>({projects.length})</span></p>
                     <FiPlusSquare className='sidebar__projects__header__icon'/>
                 </div>
 
                 <div className="sidebar__projects__list">
                     {projects.map(project => (
-                        <div>
-                            {project.description}
-                        </div>
+                        <ProjectListItem key={project.id} title={project.title} id={project.id}/>
                     ))}
                 </div>
 
             </div>
 
         </div>
-    )
+    );
 }
 
 export default Sidebar;

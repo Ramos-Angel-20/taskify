@@ -6,8 +6,18 @@
     padding: 2rem;
     height: auto;
     max-height: 18rem;
-    transition: height 150ms ease;
+    transition: all 150ms ease;
 
+
+
+    &__label {
+        
+
+
+        &:hover {
+            background-color: rgb(243, 243, 243);
+        }
+    }
 
 
 
@@ -41,10 +51,10 @@
 
 
             & button {
-                background-color: var(--primary-color);
+                background-color: #38c938;
                 border: none;
                 outline: none;
-                border-radius: .8rem;
+                border-radius: .5rem;
                 font-size: 1.8rem;
                 font-family: var(--primary-font);
                 color: #fff;
@@ -54,7 +64,14 @@
 
 
                 &:nth-child(2) {
-                    background-color: red;
+                    background-color: transparent;
+                    color: grey;
+
+
+
+                    &:hover {
+                        background-color: rgb(243, 243, 243);
+                    }
                 }
             }
         }

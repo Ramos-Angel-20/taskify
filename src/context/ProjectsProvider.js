@@ -1,7 +1,7 @@
 import { useReducer, useCallback } from 'react';
 
 import ProjectsContext from './projects-context';
-import { getProjects, getProjectData } from '../lib/apiService';
+import { getProjects, getProjectData, addTaskToList } from '../lib/apiService';
 
 //Actions constants.
 const ADD_PROJECT = 'ADD_PROJECT';
@@ -13,6 +13,7 @@ const GET_CURRENT_PROJECT = 'GET_CURRENT_PROJECT';
 const CHANGE_COLUMN_ORDER = 'CHANGE_COLUMN_ORDER';
 const SET_COLUMNS = 'SET_COLUMNS';
 const SET_TASKS = 'SET_TASKS';
+const SET_CURRENT_PROJECT_ID = 'SET_CURRENT_PROJECT_ID';
 
 
 const defaultProjectsState = {
@@ -30,18 +31,36 @@ const projectsReducer = (state, action) => {
             return {
                 ...state
             };
-        /*
-            El listGroup es el nombre de la lista, se la pasaremos a cada componente
-            que contenga un ReactSortable, el action.payload sera todo el arreglo que
-            recibe el ReactSortable en su atributo setList
+
+        case ADD_PROJECT_TASK: 
+
+            const newTask = {
+                id: action.payload.id,
+                description: action.payload.description
+            };
+
+            const newTasks = {
+                ...state.tasks,
+                [action.payload.id]: newTask
+            };
+            
+            for (const iterator in newTasks) {
+                console.log(iterator);
+            }
+
+            const mutatedColumn = state.columns[action.payload.columnId];
+            mutatedColumn.tasksIds.push(action.payload.id);
+            
+            const mutatedColumns = {
+                ...state.columns,
+                [action.payload.columnId]: mutatedColumn
+            };
+
+
             return {
                 ...state,
-                [listGroup]: action.payload
-            }
-        */
-        case ADD_PROJECT_TASK:
-            return {
-                ...state
+                tasks: newTasks,
+                columns: mutatedColumns
             };
 
         case DELETE_PROJECT:
@@ -80,7 +99,7 @@ const projectsReducer = (state, action) => {
             const newColumns = {
                 ...state.columns,
                 [columnId]: newColumn
-            };  
+            };
 
             return {
                 ...state,
@@ -96,8 +115,6 @@ const projectsReducer = (state, action) => {
                 [finishColumn.id]: finishColumn
             };
 
-            console.log(reorderedColumn);            
-
             return {
                 ...state,
                 columns: {
@@ -106,6 +123,12 @@ const projectsReducer = (state, action) => {
                     [finishColumn.id]: finishColumn
                 }
             };
+
+        case SET_CURRENT_PROJECT_ID:
+            return {
+                ...state,
+                selectedProjectId: action.payload
+            }
 
         default:
             return state;
@@ -124,12 +147,31 @@ const ProjectsProvider = props => {
 
     }
 
-    const addTaskHandler = (title, body, projectId) => {
+    const addTaskHandler = (columnId, description) => {
 
+
+        addTaskToList(columnId, description).then(res => {
+
+            const { id, description, columnId } = res;
+            dispatchProjectsAction({
+                type: ADD_PROJECT_TASK, payload: {
+                    id,
+                    description,
+                    columnId
+                }
+            });
+
+        }).catch(err => {
+            return;
+        })
     }
 
     const deleteTaskHandler = () => {
 
+    }
+
+    const getCurrentProjectIdHandler = id => {
+        dispatchProjectsAction({ type: SET_CURRENT_PROJECT_ID, payload: id });
     }
 
 
@@ -138,11 +180,11 @@ const ProjectsProvider = props => {
 
         getProjects(userId).then(res => {
 
-            dispatchProjectsAction({type: GET_PROJECTS, payload: res});
+            dispatchProjectsAction({ type: GET_PROJECTS, payload: res });
 
         }).catch(err => {
 
-            console.log(err);
+            dispatchProjectsAction({ type: GET_PROJECTS, payload: [] });
 
         });
     }
@@ -150,12 +192,12 @@ const ProjectsProvider = props => {
     const getCurrentProjectHandler = useCallback((projectId) => {
 
         getProjectData(projectId).then(res => {
-            
+
             const taskColumns = {};
             const tasksList = {};
             const columnOrder = [];
 
-            
+
             for (const column of res.columns) {
 
                 const columnId = column.id;
@@ -180,25 +222,12 @@ const ProjectsProvider = props => {
                     title: column.title,
                     tasksIds: relatedTasks
                 };
-                // taskColumns[columnId] = {
-                //     id: columnId,
-                //     title: column.title,
-                //     tasksIds: tasksIds
-                // };
             }
 
             // Convertir la respuesta de tasks al formato que necesitamos...
             for (const task of res.tasks) {
                 tasksList[task.id] = task;
             }
-
-            // console.log({...taskColumns})
-
-            // console.log({...tasksList});
-            // console.log({...taskColumns}); 
-            // console.log(columnOrder);
-            
-            
 
             dispatchProjectsAction({
                 type: GET_CURRENT_PROJECT, payload: {
@@ -225,7 +254,7 @@ const ProjectsProvider = props => {
             }
         });
     }
-  
+
     const setColumnsHandler = (newColumn, columnId) => {
         dispatchProjectsAction({
             type: SET_COLUMNS, payload: {
@@ -237,10 +266,12 @@ const ProjectsProvider = props => {
 
     const setTasksHandler = (startColumn, finishColumn) => {
 
-        dispatchProjectsAction({type: SET_TASKS, payload: {
-            startColumn: startColumn,
-            finishColumn: finishColumn
-        }});
+        dispatchProjectsAction({
+            type: SET_TASKS, payload: {
+                startColumn: startColumn,
+                finishColumn: finishColumn
+            }
+        });
     }
 
     const context = {
@@ -249,7 +280,10 @@ const ProjectsProvider = props => {
         getCurrentProject: getCurrentProjectHandler,
         changeColumnOrder: columnOrderChangeHandler,
         setColumns: setColumnsHandler,
-        setTasks: setTasksHandler
+        setTasks: setTasksHandler,
+        setCurrentProjectId: getCurrentProjectIdHandler,
+        addTask: addTaskHandler,
+
     };
 
     return (

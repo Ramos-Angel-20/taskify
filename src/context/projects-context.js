@@ -6,15 +6,17 @@ const ProjectsContext = createContext({
     tasks: {},
     columns: {},
     columnOrder: [],
+    selectedProjectId: '',
     changeColumnOrder: (newOrderArray) => {},
     addProject: (title) => {},
     deleteProject: (id) => {},
-    addTask: (title, body) => {},
+    addTask: (columnId, description) => {},
     deleteTask: (id) => {},
     getProjects: (userId) => {},
     getCurrentProject: (projectId) => {},
     setColumns: (newColumns, columnId) => {},
-    setTasks: (newTasks) => {} 
+    setTasks: (newTasks) => {} ,
+    setCurrentProjectId: (id) => {}
 });
 
 export default ProjectsContext;

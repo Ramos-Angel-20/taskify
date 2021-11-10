@@ -62,3 +62,23 @@ export const changeTaskFromList = async (taskId, columnId) => {
         return error.message;
     }
 }
+
+export const addTaskToList = async (columnId, description) => {
+    try {
+        
+        const response = await api.post('/task', {
+            columnId,
+            description
+        });
+
+        if (response.status !== 201) {
+            throw new Error('An error ocurred while creating the task');
+        }
+
+        const result = response.data;
+        return result;
+
+    } catch (error) {
+        
+    }
+}

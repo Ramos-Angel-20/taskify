@@ -8,13 +8,13 @@ import { changeTaskFromList } from '../lib/apiService';
 
 //Al parecer esta madre ya es funcional...
 const Project = (props) => {
-    console.log('hola');
-    const { getCurrentProject, columnOrder, columns, tasks, changeColumnOrder, setColumns, setTasks } = useContext(ProjectsContext);
-
+    
+    const { getCurrentProject, columnOrder, columns, tasks, changeColumnOrder, setColumns, setTasks, selectedProjectId } = useContext(ProjectsContext);
+    
     useEffect(() => {
-        getCurrentProject('2b5269a6-c218-442b-880c-8ba2693d8323');
+        getCurrentProject(selectedProjectId);
 
-    }, [getCurrentProject]);
+    }, [getCurrentProject, selectedProjectId]);
 
     const onDragEndHandler = (res) => {
         //draggableId es la task que arrastramos.

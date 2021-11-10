@@ -11,8 +11,8 @@ const App = () => {
 
   useEffect(() => {
 
-    projectsCtx.getProjects('59b94f58-344c-4443-91f5-8a895e680248');
-    console.log(projectsCtx.projects);
+    projectsCtx.getProjects('8afa0425-c2c2-47e9-9451-1d2373bb9834');
+    
   }, []);
 
   return (
