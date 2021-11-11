@@ -3,9 +3,27 @@
     border-radius: 1rem;
     margin: 1rem 0;
     border: 1px solid lightgray;
-    padding: 2rem;
     height: auto;
     max-height: 18rem;
+    overflow: hidden;
+
+
+    &__header {
+        color: red;
+        min-height: 3rem;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: .5rem;
+
+
+        &__icon {
+            cursor: pointer;
+            font-size: 2.5rem;
+        }
+    }
+
     
     &__description {
         min-height: 4rem;
@@ -16,6 +34,7 @@
         margin-bottom: 2rem;
         font-size: 2.2rem;
         font-weight: 600;
+        padding: 1rem;
         
     }
 
@@ -24,13 +43,13 @@
 
     &__date {
         font-size: 1.6rem;
+        padding: 1rem;
     }
     
 
 
     &--isDragging {
         background-color: lightgrey;
-        padding: 2rem;
         border-radius: 1rem;
         box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
         opacity: 0.6;

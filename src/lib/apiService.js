@@ -79,6 +79,25 @@ export const addTaskToList = async (columnId, description) => {
         return result;
 
     } catch (error) {
-        
+        return error.message;
     }
+}
+
+export const deleteTaskFromList = async taskId => {
+    
+    try {
+        
+        const response = await api.delete(`/task/${taskId}`);
+
+        if (response.status !== 201) {
+            throw new Error('An error ocurred while deleting the task');
+        }
+
+        const result = response.data;
+        return result;
+
+    } catch (error) {
+        return error.message;
+    }
+
 }

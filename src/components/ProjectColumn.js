@@ -1,9 +1,19 @@
 import { Droppable, Draggable } from 'react-beautiful-dnd';
+
+import { useContext } from 'react';
+
 import TaskCard from './TaskCard';
 import AddTaskCard from './AddTaskCard';
-
+import ProjectsContext from '../context/projects-context';
 
 const ProjectColumn = ({ column, tasks, index }) => {
+
+    const { deleteTask } = useContext(ProjectsContext);
+
+    const taskDeletionHandler = (taskId) => {
+        deleteTask(taskId, column.id);
+    }
+
     return (
         <Draggable draggableId={column.id} index={index}>
             {(provided) => (
@@ -17,7 +27,7 @@ const ProjectColumn = ({ column, tasks, index }) => {
                         {(provided, snapshot) => (
                             <div ref={provided.innerRef} {...provided.droppableProps} className='projectColumn__container'>
                                 
-                                {tasks.map((task, index) => <TaskCard key={task.id} task={task} index={index}/>)}
+                                {tasks.map((task, index) => <TaskCard key={task.id} task={task} index={index} onDelete={taskDeletionHandler}/>)}
                                 
                                 
                                 {provided.placeholder}

@@ -11,7 +11,7 @@ const App = () => {
 
   useEffect(() => {
 
-    projectsCtx.getProjects('8afa0425-c2c2-47e9-9451-1d2373bb9834');
+    projectsCtx.getProjects('53df1367-0969-45e6-b584-4af300c35dc6');
     
   }, []);
 

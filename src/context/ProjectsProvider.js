@@ -1,7 +1,7 @@
 import { useReducer, useCallback } from 'react';
 
 import ProjectsContext from './projects-context';
-import { getProjects, getProjectData, addTaskToList } from '../lib/apiService';
+import { getProjects, getProjectData, addTaskToList, deleteTaskFromList } from '../lib/apiService';
 
 //Actions constants.
 const ADD_PROJECT = 'ADD_PROJECT';
@@ -32,25 +32,24 @@ const projectsReducer = (state, action) => {
                 ...state
             };
 
-        case ADD_PROJECT_TASK: 
+        case ADD_PROJECT_TASK:
 
             const newTask = {
                 id: action.payload.id,
                 description: action.payload.description
             };
 
+            // Se actualizan las tasks.
             const newTasks = {
                 ...state.tasks,
                 [action.payload.id]: newTask
             };
-            
-            for (const iterator in newTasks) {
-                console.log(iterator);
-            }
+
 
             const mutatedColumn = state.columns[action.payload.columnId];
             mutatedColumn.tasksIds.push(action.payload.id);
-            
+
+            // Se actualizan las columnas
             const mutatedColumns = {
                 ...state.columns,
                 [action.payload.columnId]: mutatedColumn
@@ -68,11 +67,34 @@ const projectsReducer = (state, action) => {
                 ...state
             };
 
-        case DELETE_PROJECT_TASK:
-            return {
-                ...state
+        case DELETE_PROJECT_TASK:   //TODO: Aqui vamos
+
+            const { fromColumnId, deleteTaskId } = action.payload;
+
+            const newTasksDelete = { ...state.tasks };
+            delete newTasksDelete[deleteTaskId];
+
+
+            //FIXME: FUNCIONA, PERO HAY QUE LIMPIAR ESTE CODIGO HEDIONDO...
+            const actualColumns = { ...state.columns };
+            const targetColumn = actualColumns[fromColumnId];
+            const newTasksIdsArray = targetColumn.tasksIds.filter(id => id !== deleteTaskId);
+            
+            const updatedColumns = {
+                ...state.columns,
+                [fromColumnId]: {
+                    ...targetColumn,
+                    tasksIds: newTasksIdsArray
+                }
             };
 
+
+            return {
+                ...state,
+                tasks: newTasksDelete,
+                columns: updatedColumns
+            };
+    
         case GET_PROJECTS:
             return {
                 ...state,
@@ -109,11 +131,11 @@ const projectsReducer = (state, action) => {
         case SET_TASKS:
             const { startColumn, finishColumn } = action.payload;
 
-            const reorderedColumn = {
-                ...state.columns,
-                [startColumn.id]: startColumn,
-                [finishColumn.id]: finishColumn
-            };
+            // const reorderedColumn = {
+            //     ...state.columns,
+            //     [startColumn.id]: startColumn,
+            //     [finishColumn.id]: finishColumn
+            // };
 
             return {
                 ...state,
@@ -166,15 +188,20 @@ const ProjectsProvider = props => {
         })
     }
 
-    const deleteTaskHandler = () => {
+    const deleteTaskHandler = (deleteTaskId, fromColumnId) => { //TODO: Aqui vamos
 
+        deleteTaskFromList(deleteTaskId).then(res => {
+
+            dispatchProjectsAction({ type: DELETE_PROJECT_TASK, payload: { deleteTaskId, fromColumnId } });
+
+        }).catch(err => {
+            return;
+        });
     }
 
     const getCurrentProjectIdHandler = id => {
         dispatchProjectsAction({ type: SET_CURRENT_PROJECT_ID, payload: id });
     }
-
-
 
     const getProjectsHandler = userId => {
 
@@ -283,6 +310,7 @@ const ProjectsProvider = props => {
         setTasks: setTasksHandler,
         setCurrentProjectId: getCurrentProjectIdHandler,
         addTask: addTaskHandler,
+        deleteTask: deleteTaskHandler,
 
     };
 

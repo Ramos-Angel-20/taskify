@@ -26,6 +26,9 @@ const AddTaskCard = ({ columnId }) => {
 
         if (taskDescription && taskDescription.length > 10) {
             addTask(columnId, taskDescription);
+
+            setTaskDescription('');
+            setInputIsOpen(false);
         }
 
         return;
