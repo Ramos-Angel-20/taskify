@@ -1,3 +1,6 @@
+import { Toaster } from 'react-hot-toast';
+import { Switch, Route } from 'react-router-dom';
+
 import { useEffect, useContext } from 'react';
 
 import Navbar from './components/Navbar';
@@ -11,18 +14,18 @@ const App = () => {
 
   useEffect(() => {
 
-    projectsCtx.getProjects('53df1367-0969-45e6-b584-4af300c35dc6');
+    projectsCtx.getProjects('e4686f11-e453-46b3-baed-2d784a428d69');
     
   }, []);
 
   return (
-    <>
+    <Switch>
       <main>
+        <Toaster/>
         <Sidebar/>
         <Project />
       </main>
-
-    </>
+    </Switch>
   );
 
 }

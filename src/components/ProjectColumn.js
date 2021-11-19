@@ -4,14 +4,19 @@ import { useContext } from 'react';
 
 import TaskCard from './TaskCard';
 import AddTaskCard from './AddTaskCard';
+import ProjectTitle from './ProjectTitle';
 import ProjectsContext from '../context/projects-context';
 
 const ProjectColumn = ({ column, tasks, index }) => {
 
-    const { deleteTask } = useContext(ProjectsContext);
+    const { deleteTask, deleteColumn } = useContext(ProjectsContext);
 
     const taskDeletionHandler = (taskId) => {
         deleteTask(taskId, column.id);
+    }
+
+    const deleteColumnHandler = () => {
+        deleteColumn(column.id, tasks);
     }
 
     return (
@@ -19,9 +24,10 @@ const ProjectColumn = ({ column, tasks, index }) => {
             {(provided) => (
                 <div className='projectColumn' ref={provided.innerRef} {...provided.draggableProps}>
 
-                    <div className='projectColumn__header' {...provided.dragHandleProps}>
+                    <ProjectTitle title={column.title} dragProps={provided.dragHandleProps} onDelete={deleteColumnHandler}/>
+                    {/* <div className='projectColumn__header' {...provided.dragHandleProps}>
                         <p>{column.title}</p>
-                    </div>
+                    </div> */}
 
                     <Droppable droppableId={column.id}>
                         {(provided, snapshot) => (

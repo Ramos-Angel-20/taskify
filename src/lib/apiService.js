@@ -101,3 +101,46 @@ export const deleteTaskFromList = async taskId => {
     }
 
 }
+
+export const addListToProject = async (title, projectId) => {
+
+    try {
+        
+        const response = await api.post(`/column/${projectId}`, {
+            columnTitle: title
+        });
+
+        if (response.status !== 201) {
+            throw new Error('An error ocurred while creating the new column');
+        }
+    
+        const result = response.data;
+        return result;
+
+    } catch (error) {
+        return error.message;    
+    }
+}
+
+export const deleteColumnFromProject = async (columnId, tasksIds) => {
+    
+    console.log(tasksIds);
+    try {
+
+        //Usamos el metodo PUT en lugar de delete, esto porque delete no permite un body
+        const response = await api.put(`/column/${columnId}`, {
+            tasksIds
+        });
+
+        if (response.status !== 201) {
+            throw new Error('Something went wrong while deleting the column');
+        }
+
+        const result = response.data;
+        return result;
+        
+
+    } catch (error) {
+        return error.message;
+    }
+}

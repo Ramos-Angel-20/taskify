@@ -1,0 +1,52 @@
+.addColumn {
+
+    max-width: 40rem;
+    min-width: 40rem;
+    
+    background-color: #fff;
+    height: 16rem;
+    border-radius: 1rem;
+    padding: 1rem 2rem;
+
+
+
+    & p {
+        font-size: 3rem;
+        font-weight: 800;
+    }
+
+
+
+    & input {
+        width: 100%;
+        height: 4rem;
+        background-color: rgb(236, 236, 236);
+        border-radius: 1rem;
+        border: none;
+        margin-bottom: 1rem;
+        padding: .5rem;
+        font-size: 2rem;
+        outline: none;
+    }
+
+
+
+
+    &__actions {
+        
+
+
+        & button {
+            background-color: #38c938;
+            border: none;
+            outline: none;
+            border-radius: .5rem;
+            font-size: 1.8rem;
+            font-family: var(--primary-font);
+            color: #fff;
+            height: 4rem;
+            width: 100%;
+            cursor: pointer;
+        }
+    }
+}

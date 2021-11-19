@@ -1,11 +1,18 @@
 import { useReducer, useCallback } from 'react';
 
 import ProjectsContext from './projects-context';
-import { getProjects, getProjectData, addTaskToList, deleteTaskFromList } from '../lib/apiService';
+import {
+    getProjects,
+    getProjectData,
+    addTaskToList,
+    deleteTaskFromList,
+    addListToProject,
+    deleteColumnFromProject
+} from '../lib/apiService';
 
 //Actions constants.
 const ADD_PROJECT = 'ADD_PROJECT';
-const ADD_PROJECT_TASK = 'ADD_PROJECT_TASK';
+const ADD_TO_PROJECT_TASK = 'ADD_TO_PROJECT_TASK';
 const DELETE_PROJECT = 'DELETE_PROJECT';
 const DELETE_PROJECT_TASK = 'DELETE_PROJECT_TASK';
 const GET_PROJECTS = 'GET_PROJECTS';
@@ -14,6 +21,8 @@ const CHANGE_COLUMN_ORDER = 'CHANGE_COLUMN_ORDER';
 const SET_COLUMNS = 'SET_COLUMNS';
 const SET_TASKS = 'SET_TASKS';
 const SET_CURRENT_PROJECT_ID = 'SET_CURRENT_PROJECT_ID';
+const ADD_COLUMN = 'ADD_COLUMN';
+const DELETE_COLUMN = 'DELETE_COLUMN';
 
 
 const defaultProjectsState = {
@@ -32,11 +41,32 @@ const projectsReducer = (state, action) => {
                 ...state
             };
 
-        case ADD_PROJECT_TASK:
+        case ADD_COLUMN: //TODO: VAMOS AQUI
+
+            const newColumnsBeforeAdd = {
+                ...state.columns,
+                [action.payload.columnId]: {
+                    id: action.payload.columnId,
+                    title: action.payload.title,
+                    tasksIds: []
+                }
+            }
+
+            const newColumnOrder = [...state.columnOrder, action.payload.columnId];
+
+            return {
+                ...state,
+                columns: newColumnsBeforeAdd,
+                columnOrder: newColumnOrder
+
+            };
+
+        case ADD_TO_PROJECT_TASK:
 
             const newTask = {
                 id: action.payload.id,
-                description: action.payload.description
+                description: action.payload.description,
+                createdAt: action.payload.createdAt
             };
 
             // Se actualizan las tasks.
@@ -67,7 +97,7 @@ const projectsReducer = (state, action) => {
                 ...state
             };
 
-        case DELETE_PROJECT_TASK:   //TODO: Aqui vamos
+        case DELETE_PROJECT_TASK:
 
             const { fromColumnId, deleteTaskId } = action.payload;
 
@@ -79,7 +109,7 @@ const projectsReducer = (state, action) => {
             const actualColumns = { ...state.columns };
             const targetColumn = actualColumns[fromColumnId];
             const newTasksIdsArray = targetColumn.tasksIds.filter(id => id !== deleteTaskId);
-            
+
             const updatedColumns = {
                 ...state.columns,
                 [fromColumnId]: {
@@ -94,12 +124,38 @@ const projectsReducer = (state, action) => {
                 tasks: newTasksDelete,
                 columns: updatedColumns
             };
-    
+
+        case DELETE_COLUMN: //TODO: Vamos aqui.
+            const targetdDeleteColumnId = action.payload.columnId;
+
+            // Borrar la columna.
+            const newColumnsBeforeDelete = {
+                ...state.columns
+            };
+            delete newColumnsBeforeDelete[targetdDeleteColumnId];
+
+            // Borrar las tasks.
+            const newTasksBeforeColumnDelete = { ...state.tasks };
+
+            for (const id of action.payload.tasksIds) {
+                delete newTasksBeforeColumnDelete[id];
+            }
+
+            //Borrar la columna del arreglo de columnOrder...
+            const newColumnOrderBeforeDelete = state.columnOrder.filter(id => id !== targetdDeleteColumnId);
+
+            return {
+                ...state,
+                columns: newColumnsBeforeDelete,
+                tasks: newTasksBeforeColumnDelete,
+                columnOrder: newColumnOrderBeforeDelete
+            };
+
         case GET_PROJECTS:
             return {
                 ...state,
                 projects: action.payload
-            }
+            };
 
         case GET_CURRENT_PROJECT:
             return {
@@ -173,13 +229,15 @@ const ProjectsProvider = props => {
 
 
         addTaskToList(columnId, description).then(res => {
+            console.log(res);
 
-            const { id, description, columnId } = res;
+            const { id, description, columnId, createdAt } = res;
             dispatchProjectsAction({
-                type: ADD_PROJECT_TASK, payload: {
+                type: ADD_TO_PROJECT_TASK, payload: {
                     id,
                     description,
-                    columnId
+                    columnId,
+                    createdAt
                 }
             });
 
@@ -188,7 +246,7 @@ const ProjectsProvider = props => {
         })
     }
 
-    const deleteTaskHandler = (deleteTaskId, fromColumnId) => { //TODO: Aqui vamos
+    const deleteTaskHandler = (deleteTaskId, fromColumnId) => {
 
         deleteTaskFromList(deleteTaskId).then(res => {
 
@@ -301,6 +359,45 @@ const ProjectsProvider = props => {
         });
     }
 
+    const addColumnHandler = title => {
+        addListToProject(title, projectState.selectedProjectId).then(res => {
+            console.log(res);
+            dispatchProjectsAction({
+                type: ADD_COLUMN, payload: {
+                    columnId: res.id,
+                    title: res.title
+                }
+            });
+
+        }).catch(err => {
+            console.log(err);
+
+            return;
+        });
+    }
+
+    const deleteColumnHandler = (columnId, tasks) => { //TODO: Vamos aqui
+
+        const tasksIds = tasks.map(task => task.id);
+
+
+
+        deleteColumnFromProject(columnId, tasksIds).then(res => {
+
+            dispatchProjectsAction({
+                type: DELETE_COLUMN, payload: {
+                    columnId,
+                    tasksIds
+                }
+            });
+
+        }).catch(err => {
+
+            console.log(err);
+
+        });
+    }
+
     const context = {
         ...projectState,
         getProjects: getProjectsHandler,
@@ -311,7 +408,8 @@ const ProjectsProvider = props => {
         setCurrentProjectId: getCurrentProjectIdHandler,
         addTask: addTaskHandler,
         deleteTask: deleteTaskHandler,
-
+        addColumn: addColumnHandler,
+        deleteColumn: deleteColumnHandler,
     };
 
     return (

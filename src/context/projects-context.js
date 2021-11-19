@@ -16,7 +16,9 @@ const ProjectsContext = createContext({
     getCurrentProject: (projectId) => {},
     setColumns: (newColumns, columnId) => {},
     setTasks: (newTasks) => {} ,
-    setCurrentProjectId: (id) => {}
+    setCurrentProjectId: (id) => {},
+    addColumn: (title) => {},
+    deleteColumn: (columnId, tasksIds) => {}
 });
 
 export default ProjectsContext;

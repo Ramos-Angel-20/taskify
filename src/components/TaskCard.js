@@ -4,11 +4,7 @@ import { Draggable } from 'react-beautiful-dnd';
 
 const TaskCard = (props) => {
 
-    
-
-    const creationDate = new Date(props.task.createdAt).toDateString();
-
-    
+    const creationDate = new Date(props.task.createdAt).toDateString();    
 
     return (
         <Draggable draggableId={props.task.id} index={props.index}>

@@ -1,3 +1,5 @@
+import { BrowserRouter as Router } from 'react-router-dom';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
@@ -8,9 +10,11 @@ import ProjectsProvider from './context/ProjectsProvider';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ProjectsProvider>
-      <App />
-    </ProjectsProvider>
+    <Router>
+      <ProjectsProvider>
+        <App />
+      </ProjectsProvider>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );

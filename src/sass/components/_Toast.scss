@@ -1,0 +1,48 @@
+.toast {    
+
+    &__warning {
+        background-color: rgb(233, 227, 200);
+        color: orange;
+        font-size: 2rem;
+        font-weight: 600;
+
+        &__title {
+            font-size: 3rem;
+        }
+        
+
+        &__actions {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+
+        & button {
+            font-family: var(--primary-font);
+            font-weight: 600;       
+        }
+
+        &__delete {
+            padding: 1rem 2rem;
+            color: #fff;
+            font-size: 2rem;
+            border: none;
+            border-radius: .8rem;
+            background-color: red;
+            cursor: pointer;
+        }
+
+
+
+        &__cancel {
+            padding: 1rem 2rem;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            background-color: gray;
+            border: none;
+            border-radius: .8rem;
+        }
+    }
+}

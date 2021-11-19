@@ -2,6 +2,7 @@ import { Droppable, Draggable } from 'react-beautiful-dnd';
 
 import TaskCard from './TaskCard';
 
+
 const Column = props => {
     return (
         <Draggable draggableId={props.column.id} >

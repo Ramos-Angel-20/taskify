@@ -2,6 +2,7 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { useEffect, useContext } from 'react';
 
 import ProjectColumn from './ProjectColumn';
+import AddColumn from './AddColumn';
 import ProjectsContext from '../context/projects-context';
 import { changeTaskFromList } from '../lib/apiService';
 
@@ -9,7 +10,7 @@ import { changeTaskFromList } from '../lib/apiService';
 //Al parecer esta madre ya es funcional...
 const Project = (props) => {
     
-    const { getCurrentProject, columnOrder, columns, tasks, changeColumnOrder, setColumns, setTasks, selectedProjectId } = useContext(ProjectsContext);
+    const { getCurrentProject, columnOrder, columns, tasks, changeColumnOrder, setColumns, setTasks, selectedProjectId, addColumn } = useContext(ProjectsContext);
     
     useEffect(() => {
         getCurrentProject(selectedProjectId);
@@ -130,10 +131,11 @@ const Project = (props) => {
     }
 
     return (
-        <DragDropContext onDragEnd={(e) => onDragEndHandler(e)} >
-            <Droppable droppableId='current-projectId' type='list' direction='horizontal'>
+       <div className='project'>
+            <DragDropContext onDragEnd={(e) => onDragEndHandler(e)} >
+            <Droppable droppableId={selectedProjectId} type='list' direction='horizontal'>
                 {(provided, snapshot) => (
-                    <div className='project' ref={provided.innerRef} {...provided.droppableProps}>
+                    <div  ref={provided.innerRef} {...provided.droppableProps} className='project__container'>
                         {columnOrder.map((columnId, index) => {
                             
                             const column = columns[columnId];
@@ -146,12 +148,13 @@ const Project = (props) => {
 
                         })}
                         {provided.placeholder}
-                        <h3>Add column (list) component</h3>
+                        <AddColumn onAddColumn={addColumn}/>
                     </div>
                 )}
             </Droppable>
         </DragDropContext>
-    )
+       </div>
+    );
 }
 
 export default Project
