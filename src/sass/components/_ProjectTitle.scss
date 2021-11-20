@@ -11,18 +11,16 @@
     position: relative;
     
     
-    & p {
+    p {
         font-size: 3rem;
         font-weight: 800;
     }
 
 
 
-
     &__dots {
         font-size: 3rem;
         cursor: pointer;
-
 
         &:hover {
             color: grey;
@@ -49,6 +47,7 @@
         p {
             padding: 1rem;
             font-size: 1.8rem;
+            
             transition: background-color 200ms ease;
 
             
@@ -56,6 +55,8 @@
 
 
         &__title-opt {
+            display: flex;
+            justify-content: space-between;
 
             &:hover,:focus {
                 background-color: lightgray;
@@ -64,7 +65,8 @@
 
 
         &__delete-opt {
-
+            display: flex;
+            justify-content: space-between;
 
             &:hover, :focus {
                 color: red;
@@ -72,5 +74,78 @@
             }
         }
         
+    }
+
+
+
+
+
+    &__change__menu {
+        z-index: 999;
+        top: 20rem;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: 50rem;
+        border-radius: .8rem;
+        height: 20rem;
+        background-color: #fff;
+        padding: 1rem;
+
+        & p {
+            font-size: 3rem;
+            font-weight: 600;
+        }
+
+
+        & input {
+            margin-top: 2rem;
+            border-radius: .8rem;
+            border: none;
+            height: 4rem;
+            padding: 1rem;
+            outline: none;
+            background-color: rgb(236, 236, 236);
+            width: 100%;
+            font-size: 2rem;
+        }
+
+
+        &__actions {
+            display: flex;
+            margin-top: 2rem;
+            justify-content: space-between;
+
+
+            & button {
+                background-color: rgb(182, 110, 250);
+                padding: 1rem 2rem;
+                font-size: 2rem;
+                border: none;
+                border-radius: .8rem;
+                font-family: var(--primary-font);
+                font-weight: 600;
+                color: #fff;
+                cursor: pointer;
+                transition: all 200ms;
+                
+                &:hover {
+                    background-color: darken($color: rgb(182, 110, 250), $amount: 20);
+                }
+
+
+                &:nth-child(2) {
+                    color: gray;
+                    background-color: transparent;
+
+
+                    &:hover {
+                        background-color: gray;
+                        color: #fff;
+                    }
+                }
+            }
+        }
     }
 }

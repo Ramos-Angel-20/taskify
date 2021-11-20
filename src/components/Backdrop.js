@@ -1,13 +1,13 @@
 import { createPortal } from 'react-dom';
 
-const BackdropOverlay = ({ children }) => {
+const BackdropOverlay = props => {
     return (
-        <div className='backdrop'>
-            {children}
+        <div className='backdrop' onClick={() => props.onClose()}>
+            
         </div>
     )
 }
 
-const Backdrop = ({ children }) => createPortal(<BackdropOverlay>{children}</BackdropOverlay>, document.getElementById('backdrop-overlay'));
+const Backdrop = (props) => createPortal(<BackdropOverlay onClose={props.onClose}/>, document.getElementById('backdrop-overlay'));
 
 export default Backdrop;

@@ -1,8 +1,8 @@
 - Funcionalidad principal para administrar los proyectos.
-[] Crear funcionalidad para eliminar listas de un proyecto, con todo y las tasks de esa lista.
+[x] Crear funcionalidad para eliminar listas de un proyecto, con todo y las tasks de esa lista.
 [] Crear funcionalidad para eliminar un proyecto.
-[-] Crear funcionalidad para editar las tasks.
-[] Crear funcionalidad para editar el nombre de una lista.
+[x] Crear funcionalidad para editar las tasks.
+[x] Crear funcionalidad para editar el nombre de una lista.
 [] Crear funcionalidad para editar el nombre del proyecto.
 [] Cargar imagenes en las tasks **SUPER BONUS**
 

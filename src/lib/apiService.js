@@ -144,3 +144,18 @@ export const deleteColumnFromProject = async (columnId, tasksIds) => {
         return error.message;
     }
 }
+
+export const changeColumnTitle = async (newTitle, columnId) => {
+    
+    try {
+    
+        const response = await api.patch(`/column/${columnId}`, {
+            newTitle
+        });
+
+        
+        
+    } catch (error) {
+        
+    }
+}

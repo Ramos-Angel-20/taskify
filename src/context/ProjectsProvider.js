@@ -7,7 +7,8 @@ import {
     addTaskToList,
     deleteTaskFromList,
     addListToProject,
-    deleteColumnFromProject
+    deleteColumnFromProject,
+    changeColumnTitle
 } from '../lib/apiService';
 
 //Actions constants.
@@ -23,6 +24,7 @@ const SET_TASKS = 'SET_TASKS';
 const SET_CURRENT_PROJECT_ID = 'SET_CURRENT_PROJECT_ID';
 const ADD_COLUMN = 'ADD_COLUMN';
 const DELETE_COLUMN = 'DELETE_COLUMN';
+const CHANGE_COLUMN_TITLE = 'CHANGE_COLUMN_TITLE';
 
 
 const defaultProjectsState = {
@@ -41,7 +43,7 @@ const projectsReducer = (state, action) => {
                 ...state
             };
 
-        case ADD_COLUMN: //TODO: VAMOS AQUI
+        case ADD_COLUMN:
 
             const newColumnsBeforeAdd = {
                 ...state.columns,
@@ -125,7 +127,7 @@ const projectsReducer = (state, action) => {
                 columns: updatedColumns
             };
 
-        case DELETE_COLUMN: //TODO: Vamos aqui.
+        case DELETE_COLUMN:
             const targetdDeleteColumnId = action.payload.columnId;
 
             // Borrar la columna.
@@ -149,6 +151,21 @@ const projectsReducer = (state, action) => {
                 columns: newColumnsBeforeDelete,
                 tasks: newTasksBeforeColumnDelete,
                 columnOrder: newColumnOrderBeforeDelete
+            };
+
+        case CHANGE_COLUMN_TITLE: //TODO: VAMOS AQUI
+
+            const {newTitle, targetColumnId} = action.payload;
+
+            const newColumnsBeforeUpdatedTitle = {...state.columns};
+            const targetColumnToChangeTitle = newColumnsBeforeUpdatedTitle[targetColumnId];
+            targetColumnToChangeTitle.title = newTitle;
+
+            
+
+            return {
+                ...state,
+                columns: newColumnsBeforeUpdatedTitle
             };
 
         case GET_PROJECTS:
@@ -369,6 +386,7 @@ const ProjectsProvider = props => {
                 }
             });
 
+
         }).catch(err => {
             console.log(err);
 
@@ -376,7 +394,7 @@ const ProjectsProvider = props => {
         });
     }
 
-    const deleteColumnHandler = (columnId, tasks) => { //TODO: Vamos aqui
+    const deleteColumnHandler = (columnId, tasks) => {
 
         const tasksIds = tasks.map(task => task.id);
 
@@ -398,6 +416,22 @@ const ProjectsProvider = props => {
         });
     }
 
+    const changeColumnTitleHandler = (title, columnId) => { //TODO: VAMOS AQUI...
+        
+        changeColumnTitle(title, columnId).then(res => {
+            
+
+            dispatchProjectsAction({type: CHANGE_COLUMN_TITLE, payload: {
+                newTitle: title, 
+                targetColumnId: columnId
+            }});
+
+
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
     const context = {
         ...projectState,
         getProjects: getProjectsHandler,
@@ -410,6 +444,7 @@ const ProjectsProvider = props => {
         deleteTask: deleteTaskHandler,
         addColumn: addColumnHandler,
         deleteColumn: deleteColumnHandler,
+        changeColumnTitle: changeColumnTitleHandler,
     };
 
     return (
