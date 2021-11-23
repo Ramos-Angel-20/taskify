@@ -1,4 +1,6 @@
+import { useParams } from 'react-router-dom';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+
 import { useEffect, useContext } from 'react';
 
 import ProjectColumn from './ProjectColumn';
@@ -11,9 +13,12 @@ import ProjectNavbar from './ProjectNavbar';
 //Al parecer esta madre ya es funcional...
 const Project = (props) => {
 
-    const { getCurrentProject, columnOrder, columns, tasks, changeColumnOrder, setColumns, setTasks, selectedProjectId, addColumn } = useContext(ProjectsContext);
+    const { getCurrentProject, columnOrder, columns, tasks, changeColumnOrder, setColumns, setTasks, selectedProjectId, addColumn, setCurrentProjectId } = useContext(ProjectsContext);
+
+    const params = useParams();
 
     useEffect(() => {
+        setCurrentProjectId(params.projectId);
         getCurrentProject(selectedProjectId);
 
     }, [getCurrentProject, selectedProjectId]);

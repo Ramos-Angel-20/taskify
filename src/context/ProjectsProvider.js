@@ -38,205 +38,430 @@ const defaultProjectsState = {
 
 const projectsReducer = (state, action) => {
 
-
-    switch (action.type) {
-
-        case ADD_PROJECT:
-            return {
-                ...state
-            };
-
-        case ADD_COLUMN:
-
-            const newColumnsBeforeAdd = {
-                ...state.columns,
-                [action.payload.columnId]: {
-                    id: action.payload.columnId,
-                    title: action.payload.title,
-                    tasksIds: []
-                }
-            }
-
-            const newColumnOrder = [...state.columnOrder, action.payload.columnId];
-
-            return {
-                ...state,
-                columns: newColumnsBeforeAdd,
-                columnOrder: newColumnOrder
-
-            };
-
-        case ADD_TO_PROJECT_TASK:
-
-            const newTask = {
-                id: action.payload.id,
-                description: action.payload.description,
-                createdAt: action.payload.createdAt
-            };
-
-            // Se actualizan las tasks.
-            const newTasks = {
-                ...state.tasks,
-                [action.payload.id]: newTask
-            };
+    //TODO: Probar que todo funcione bien con if-else y cambiar los nombres de las variables, para que sean menos enredosos.
 
 
-            const mutatedColumn = state.columns[action.payload.columnId];
-            mutatedColumn.tasksIds.push(action.payload.id);
+    if (action.type === ADD_PROJECT) {
 
-            // Se actualizan las columnas
-            const mutatedColumns = {
-                ...state.columns,
-                [action.payload.columnId]: mutatedColumn
-            };
-
-
-            return {
-                ...state,
-                tasks: newTasks,
-                columns: mutatedColumns
-            };
-
-        case DELETE_PROJECT:
-            return {
-                ...state
-            };
-
-        case DELETE_PROJECT_TASK:
-
-            const { fromColumnId, deleteTaskId } = action.payload;
-
-            const newTasksDelete = { ...state.tasks };
-            delete newTasksDelete[deleteTaskId];
-
-
-            //FIXME: FUNCIONA, PERO HAY QUE LIMPIAR ESTE CODIGO HEDIONDO...
-            const actualColumns = { ...state.columns };
-            const targetColumn = actualColumns[fromColumnId];
-            const newTasksIdsArray = targetColumn.tasksIds.filter(id => id !== deleteTaskId);
-
-            const updatedColumns = {
-                ...state.columns,
-                [fromColumnId]: {
-                    ...targetColumn,
-                    tasksIds: newTasksIdsArray
-                }
-            };
-
-
-            return {
-                ...state,
-                tasks: newTasksDelete,
-                columns: updatedColumns
-            };
-
-        case DELETE_COLUMN:
-            const targetdDeleteColumnId = action.payload.columnId;
-
-            // Borrar la columna.
-            const newColumnsBeforeDelete = {
-                ...state.columns
-            };
-            delete newColumnsBeforeDelete[targetdDeleteColumnId];
-
-            // Borrar las tasks.
-            const newTasksBeforeColumnDelete = { ...state.tasks };
-
-            for (const id of action.payload.tasksIds) {
-                delete newTasksBeforeColumnDelete[id];
-            }
-
-            //Borrar la columna del arreglo de columnOrder...
-            const newColumnOrderBeforeDelete = state.columnOrder.filter(id => id !== targetdDeleteColumnId);
-
-            return {
-                ...state,
-                columns: newColumnsBeforeDelete,
-                tasks: newTasksBeforeColumnDelete,
-                columnOrder: newColumnOrderBeforeDelete
-            };
-
-        case CHANGE_COLUMN_TITLE: //TODO: VAMOS AQUI
-
-            const {newTitle, targetColumnId} = action.payload;
-
-            const newColumnsBeforeUpdatedTitle = {...state.columns};
-            const targetColumnToChangeTitle = newColumnsBeforeUpdatedTitle[targetColumnId];
-            targetColumnToChangeTitle.title = newTitle;
-
-            
-
-            return {
-                ...state,
-                columns: newColumnsBeforeUpdatedTitle
-            };
-
-        case GET_PROJECTS:
-            return {
-                ...state,
-                projects: action.payload
-            };
-
-        case GET_CURRENT_PROJECT:
-            return {
-                ...state,
-                selectedProjectTitle: action.payload.projectTitle,
-                tasks: action.payload.tasks,
-                columns: action.payload.columns,
-                columnOrder: action.payload.columnOrder
-            };
-
-        case CHANGE_COLUMN_ORDER:
-            return {
-                ...state,
-                columnOrder: action.payload.columnOrder
-            };
-
-        case SET_COLUMNS:
-            const { columnId, newColumn } = action.payload;
-
-            const newColumns = {
-                ...state.columns,
-                [columnId]: newColumn
-            };
-
-            return {
-                ...state,
-                columns: newColumns
-            };
-
-        case SET_TASKS:
-            const { startColumn, finishColumn } = action.payload;
-
-            // const reorderedColumn = {
-            //     ...state.columns,
-            //     [startColumn.id]: startColumn,
-            //     [finishColumn.id]: finishColumn
-            // };
-
-            return {
-                ...state,
-                columns: {
-                    ...state.columns,
-                    [startColumn.id]: startColumn,
-                    [finishColumn.id]: finishColumn
-                }
-            };
-
-        case SET_CURRENT_PROJECT_ID:
-            return {
-                ...state,
-                selectedProjectId: action.payload
-            }
-
-        default:
-            return state;
+        return {
+            ...state
+        };
     }
+
+    if (action.type === ADD_COLUMN) {
+
+        const newColumnsBeforeAdd = {
+            ...state.columns,
+            [action.payload.columnId]: {
+                id: action.payload.columnId,
+                title: action.payload.title,
+                tasksIds: []
+            }
+        }
+
+        const newColumnOrder = [...state.columnOrder, action.payload.columnId];
+
+        return {
+            ...state,
+            columns: newColumnsBeforeAdd,
+            columnOrder: newColumnOrder
+
+        };
+    }
+
+
+    if (action.type === ADD_TO_PROJECT_TASK) {
+        const newTask = {
+            id: action.payload.id,
+            description: action.payload.description,
+            createdAt: action.payload.createdAt
+        };
+
+        // Se actualizan las tasks.
+        const newTasks = {
+            ...state.tasks,
+            [action.payload.id]: newTask
+        };
+
+
+        const mutatedColumn = state.columns[action.payload.columnId];
+        mutatedColumn.tasksIds.push(action.payload.id);
+
+        // Se actualizan las columnas
+        const mutatedColumns = {
+            ...state.columns,
+            [action.payload.columnId]: mutatedColumn
+        };
+
+
+        return {
+            ...state,
+            tasks: newTasks,
+            columns: mutatedColumns
+        };
+    }
+
+
+    if (action.type === DELETE_PROJECT) {
+
+        return {
+            ...state
+        }
+
+    }
+
+    if (action.type === DELETE_PROJECT_TASK) {
+
+        const { fromColumnId, deleteTaskId } = action.payload;
+
+        const newTasksDelete = { ...state.tasks };
+        delete newTasksDelete[deleteTaskId];
+
+
+        //FIXME: FUNCIONA, PERO HAY QUE LIMPIAR ESTE CODIGO HEDIONDO...
+        const actualColumns = { ...state.columns };
+        const targetColumn = actualColumns[fromColumnId];
+        const newTasksIdsArray = targetColumn.tasksIds.filter(id => id !== deleteTaskId);
+
+        const updatedColumns = {
+            ...state.columns,
+            [fromColumnId]: {
+                ...targetColumn,
+                tasksIds: newTasksIdsArray
+            }
+        };
+
+
+        return {
+            ...state,
+            tasks: newTasksDelete,
+            columns: updatedColumns
+        };
+
+    }
+
+    if (action.type === DELETE_COLUMN) {
+
+        const targetdDeleteColumnId = action.payload.columnId;
+
+        // Borrar la columna.
+        const newColumnsBeforeDelete = {
+            ...state.columns
+        };
+        delete newColumnsBeforeDelete[targetdDeleteColumnId];
+
+        // Borrar las tasks.
+        const newTasksBeforeColumnDelete = { ...state.tasks };
+
+        for (const id of action.payload.tasksIds) {
+            delete newTasksBeforeColumnDelete[id];
+        }
+
+        //Borrar la columna del arreglo de columnOrder...
+        const newColumnOrderBeforeDelete = state.columnOrder.filter(id => id !== targetdDeleteColumnId);
+
+        return {
+            ...state,
+            columns: newColumnsBeforeDelete,
+            tasks: newTasksBeforeColumnDelete,
+            columnOrder: newColumnOrderBeforeDelete
+        };
+
+    }
+
+    if (action.type === CHANGE_COLUMN_TITLE) {
+
+        const { newTitle, targetColumnId } = action.payload;
+
+        const newColumnsBeforeUpdatedTitle = { ...state.columns };
+        const targetColumnToChangeTitle = newColumnsBeforeUpdatedTitle[targetColumnId];
+        targetColumnToChangeTitle.title = newTitle;
+
+
+
+        return {
+            ...state,
+            columns: newColumnsBeforeUpdatedTitle
+        };
+
+    }
+
+    if (action.type === GET_PROJECTS) {
+
+        return {
+            ...state,
+            projects: action.payload
+        };
+
+    }
+
+    if (action.type === GET_CURRENT_PROJECT) {
+        return {
+            ...state,
+            selectedProjectTitle: action.payload.projectTitle,
+            tasks: action.payload.tasks,
+            columns: action.payload.columns,
+            columnOrder: action.payload.columnOrder
+        };
+    }
+
+    if (action.type === CHANGE_COLUMN_ORDER) {
+
+        return {
+            ...state,
+            columnOrder: action.payload.columnOrder
+        };
+
+    }
+
+    if (action.type === SET_COLUMNS) {
+        const { columnId, newColumn } = action.payload;
+
+        const newColumns = {
+            ...state.columns,
+            [columnId]: newColumn
+        };
+
+        return {
+            ...state,
+            columns: newColumns
+        };
+    }
+
+    if (action.type === SET_TASKS) {
+        
+        const { startColumn, finishColumn } = action.payload;
+
+        // const reorderedColumn = {
+        //     ...state.columns,
+        //     [startColumn.id]: startColumn,
+        //     [finishColumn.id]: finishColumn
+        // };
+
+        return {
+            ...state,
+            columns: {
+                ...state.columns,
+                [startColumn.id]: startColumn,
+                [finishColumn.id]: finishColumn
+            }
+        };
+
+    }
+
+    if (action.type === SET_CURRENT_PROJECT_ID) {
+        
+        return {
+            ...state,
+            selectedProjectId: action.payload
+        };
+    }
+
+    return {
+        ...state
+    };
+
+
+    // switch (action.type) {
+
+        // case ADD_PROJECT:
+        //     return {
+        //         ...state
+        //     };
+
+        // case ADD_COLUMN:
+
+        //     const newColumnsBeforeAdd = {
+        //         ...state.columns,
+        //         [action.payload.columnId]: {
+        //             id: action.payload.columnId,
+        //             title: action.payload.title,
+        //             tasksIds: []
+        //         }
+        //     }
+
+        //     const newColumnOrder = [...state.columnOrder, action.payload.columnId];
+
+        //     return {
+        //         ...state,
+        //         columns: newColumnsBeforeAdd,
+        //         columnOrder: newColumnOrder
+
+        //     };
+
+        // case ADD_TO_PROJECT_TASK:
+
+        //     const newTask = {
+        //         id: action.payload.id,
+        //         description: action.payload.description,
+        //         createdAt: action.payload.createdAt
+        //     };
+
+        //     // Se actualizan las tasks.
+        //     const newTasks = {
+        //         ...state.tasks,
+        //         [action.payload.id]: newTask
+        //     };
+
+
+        //     const mutatedColumn = state.columns[action.payload.columnId];
+        //     mutatedColumn.tasksIds.push(action.payload.id);
+
+        //     // Se actualizan las columnas
+        //     const mutatedColumns = {
+        //         ...state.columns,
+        //         [action.payload.columnId]: mutatedColumn
+        //     };
+
+
+        //     return {
+        //         ...state,
+        //         tasks: newTasks,
+        //         columns: mutatedColumns
+        //     };
+
+        // case DELETE_PROJECT:
+        //     return {
+        //         ...state
+        //     };
+
+        // case DELETE_PROJECT_TASK:
+
+        //     const { fromColumnId, deleteTaskId } = action.payload;
+
+        //     const newTasksDelete = { ...state.tasks };
+        //     delete newTasksDelete[deleteTaskId];
+
+
+        //     //FIXME: FUNCIONA, PERO HAY QUE LIMPIAR ESTE CODIGO HEDIONDO...
+        //     const actualColumns = { ...state.columns };
+        //     const targetColumn = actualColumns[fromColumnId];
+        //     const newTasksIdsArray = targetColumn.tasksIds.filter(id => id !== deleteTaskId);
+
+        //     const updatedColumns = {
+        //         ...state.columns,
+        //         [fromColumnId]: {
+        //             ...targetColumn,
+        //             tasksIds: newTasksIdsArray
+        //         }
+        //     };
+
+
+        //     return {
+        //         ...state,
+        //         tasks: newTasksDelete,
+        //         columns: updatedColumns
+        //     };
+
+        // case DELETE_COLUMN:
+        //     const targetdDeleteColumnId = action.payload.columnId;
+
+        //     // Borrar la columna.
+        //     const newColumnsBeforeDelete = {
+        //         ...state.columns
+        //     };
+        //     delete newColumnsBeforeDelete[targetdDeleteColumnId];
+
+        //     // Borrar las tasks.
+        //     const newTasksBeforeColumnDelete = { ...state.tasks };
+
+        //     for (const id of action.payload.tasksIds) {
+        //         delete newTasksBeforeColumnDelete[id];
+        //     }
+
+        //     //Borrar la columna del arreglo de columnOrder...
+        //     const newColumnOrderBeforeDelete = state.columnOrder.filter(id => id !== targetdDeleteColumnId);
+
+        //     return {
+        //         ...state,
+        //         columns: newColumnsBeforeDelete,
+        //         tasks: newTasksBeforeColumnDelete,
+        //         columnOrder: newColumnOrderBeforeDelete
+        //     };
+
+        // case CHANGE_COLUMN_TITLE: //TODO: VAMOS AQUI
+
+        //     const { newTitle, targetColumnId } = action.payload;
+
+        //     const newColumnsBeforeUpdatedTitle = { ...state.columns };
+        //     const targetColumnToChangeTitle = newColumnsBeforeUpdatedTitle[targetColumnId];
+        //     targetColumnToChangeTitle.title = newTitle;
+
+
+
+        //     return {
+        //         ...state,
+        //         columns: newColumnsBeforeUpdatedTitle
+        //     };
+
+        // case GET_PROJECTS:
+        //     return {
+        //         ...state,
+        //         projects: action.payload
+        //     };
+
+        // case GET_CURRENT_PROJECT:
+        //     return {
+        //         ...state,
+        //         selectedProjectTitle: action.payload.projectTitle,
+        //         tasks: action.payload.tasks,
+        //         columns: action.payload.columns,
+        //         columnOrder: action.payload.columnOrder
+        //     };
+
+        // case CHANGE_COLUMN_ORDER:
+        //     return {
+        //         ...state,
+        //         columnOrder: action.payload.columnOrder
+        //     };
+
+        // case SET_COLUMNS:
+        //     const { columnId, newColumn } = action.payload;
+
+        //     const newColumns = {
+        //         ...state.columns,
+        //         [columnId]: newColumn
+        //     };
+
+        //     return {
+        //         ...state,
+        //         columns: newColumns
+        //     };
+
+        // case SET_TASKS:
+        //     const { startColumn, finishColumn } = action.payload;
+
+        //     // const reorderedColumn = {
+        //     //     ...state.columns,
+        //     //     [startColumn.id]: startColumn,
+        //     //     [finishColumn.id]: finishColumn
+        //     // };
+
+        //     return {
+        //         ...state,
+        //         columns: {
+        //             ...state.columns,
+        //             [startColumn.id]: startColumn,
+        //             [finishColumn.id]: finishColumn
+        //         }
+        //     };
+
+        // case SET_CURRENT_PROJECT_ID:
+        //     return {
+        //         ...state,
+        //         selectedProjectId: action.payload
+        //     }
+
+    //     default:
+    //         return state;
+    // }
 }
 
 const ProjectsProvider = props => {
 
     const [projectState, dispatchProjectsAction] = useReducer(projectsReducer, defaultProjectsState);
+
+    console.log(projectState);
 
     const addProjectHandler = (title) => {
 
@@ -423,14 +648,16 @@ const ProjectsProvider = props => {
     }
 
     const changeColumnTitleHandler = (title, columnId) => { //TODO: VAMOS AQUI...
-        
-        changeColumnTitle(title, columnId).then(res => {
-            
 
-            dispatchProjectsAction({type: CHANGE_COLUMN_TITLE, payload: {
-                newTitle: title, 
-                targetColumnId: columnId
-            }});
+        changeColumnTitle(title, columnId).then(res => {
+
+
+            dispatchProjectsAction({
+                type: CHANGE_COLUMN_TITLE, payload: {
+                    newTitle: title,
+                    targetColumnId: columnId
+                }
+            });
 
 
         }).catch(err => {

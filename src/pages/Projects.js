@@ -9,7 +9,7 @@ const Projects = () => {
 
     useEffect(() => {
 
-        getProjects('768e9997-b1dc-4534-81d3-e293a8ebd5c5');
+        getProjects('c2b667d4-5e8f-4118-b055-d39835e6c965');
 
     }, []);
 

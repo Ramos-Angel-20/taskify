@@ -103,6 +103,7 @@ export const deleteTaskFromList = async taskId => {
 }
 
 export const addListToProject = async (title, projectId) => {
+    console.log(title, projectId);
 
     try {
         

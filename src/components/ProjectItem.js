@@ -18,6 +18,7 @@ const ProjectItem = ({ project }) => {
         getCurrentProject(project.id);
         history.push(`/project/${project.id}`);
 
+
     }
 
 
