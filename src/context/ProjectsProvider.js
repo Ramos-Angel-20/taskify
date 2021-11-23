@@ -32,10 +32,13 @@ const defaultProjectsState = {
     tasks: {},
     columns: {},
     columnOrder: [],
-    selectedProjectId: ''
+    selectedProjectId: '',
+    selectedProjectTitle: '',
 };
 
 const projectsReducer = (state, action) => {
+
+
     switch (action.type) {
 
         case ADD_PROJECT:
@@ -177,6 +180,7 @@ const projectsReducer = (state, action) => {
         case GET_CURRENT_PROJECT:
             return {
                 ...state,
+                selectedProjectTitle: action.payload.projectTitle,
                 tasks: action.payload.tasks,
                 columns: action.payload.columns,
                 columnOrder: action.payload.columnOrder
@@ -294,6 +298,7 @@ const ProjectsProvider = props => {
     const getCurrentProjectHandler = useCallback((projectId) => {
 
         getProjectData(projectId).then(res => {
+            console.log(res);
 
             const taskColumns = {};
             const tasksList = {};
@@ -333,6 +338,7 @@ const ProjectsProvider = props => {
 
             dispatchProjectsAction({
                 type: GET_CURRENT_PROJECT, payload: {
+                    projectTitle: res.project.title,
                     tasks: { ...tasksList },
                     columns: { ...taskColumns },
                     columnOrder: columnOrder

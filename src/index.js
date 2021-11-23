@@ -6,15 +6,18 @@ import App from './App';
 
 import './sass/index.scss';
 import ProjectsProvider from './context/ProjectsProvider';
+import ErrorBoundary from './components/ErrorBoundary';
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <ProjectsProvider>
-        <App />
-      </ProjectsProvider>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <ProjectsProvider>
+          <App />
+        </ProjectsProvider>
+      </Router>
+    </ErrorBoundary>
   </React.StrictMode>,
   document.getElementById('root')
 );

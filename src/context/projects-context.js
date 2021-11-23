@@ -7,6 +7,7 @@ const ProjectsContext = createContext({
     columns: {},
     columnOrder: [],
     selectedProjectId: '',
+    selectedProjectTitle: '',
     changeColumnOrder: (newOrderArray) => {},
     addProject: (title) => {},
     deleteProject: (id) => {},

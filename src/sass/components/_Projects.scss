@@ -1,0 +1,16 @@
+.projects {
+    min-height: 100vh;
+    background-color: #fa5148;
+    padding-top: 5rem;
+
+
+
+
+    &__content {
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        height: auto;
+        max-height: 85rem;
+        gap: 3rem;
+    }
+}
