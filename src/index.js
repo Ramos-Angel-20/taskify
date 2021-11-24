@@ -1,3 +1,4 @@
+import { Toaster } from 'react-hot-toast';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import React from 'react';
@@ -11,6 +12,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 
 ReactDOM.render(
   <React.StrictMode>
+    <Toaster position='top-center'/>
     <ErrorBoundary>
       <Router>
         <ProjectsProvider>

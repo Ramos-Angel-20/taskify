@@ -24,8 +24,16 @@ const ProjectItem = ({ project }) => {
 
     return (
         <div className='projectItem' onClick={projectRedirectHandler}>
+            <div className='projectItem__image'>
+                
+            </div>
+            
             <div className='projectItem__title'>
                 {project.title}
+            </div>
+            <div className='projectItem__actions'>
+                <button className='projectItem__actions__btn view'>View</button>
+                <button className='projectItem__actions__btn delete'>Delete</button>
             </div>
         </div>
     )

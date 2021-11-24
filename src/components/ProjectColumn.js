@@ -20,6 +20,7 @@ const ProjectColumn = ({ column, tasks, index }) => {
 
 
     const deleteColumnHandler = () => {
+        console.log('hola 2');
         deleteColumn(column.id, tasks);
     }
 

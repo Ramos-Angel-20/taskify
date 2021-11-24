@@ -141,7 +141,7 @@ const projectsReducer = (state, action) => {
     }
 
     if (action.type === DELETE_COLUMN) {
-
+        
         const targetdDeleteColumnId = action.payload.columnId;
 
         // Borrar la columna.
@@ -626,7 +626,8 @@ const ProjectsProvider = props => {
     }
 
     const deleteColumnHandler = (columnId, tasks) => {
-
+        console.log(columnId);
+        console.log(tasks);
         const tasksIds = tasks.map(task => task.id);
 
 
