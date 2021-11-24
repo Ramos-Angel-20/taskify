@@ -55,9 +55,9 @@
     }
 }
 .delete {
-    background-color: rgb(182, 110, 250);
+    background-color: rgb(250, 110, 129);
     
     &:hover {
-        background-color: darken($color:rgb(182, 110, 250), $amount: 10);
+        background-color: darken($color:rgb(250, 110, 129), $amount: 10);
     }
 }

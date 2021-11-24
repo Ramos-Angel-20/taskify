@@ -1,6 +1,7 @@
 import ProjectItem from '../components/ProjectItem';
 
 const ProjectsList = ({ projects }) => {
+    
     return (
         <div className='projectsList'>
             {

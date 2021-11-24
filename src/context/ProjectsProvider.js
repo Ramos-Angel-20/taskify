@@ -8,8 +8,10 @@ import {
     deleteTaskFromList,
     addListToProject,
     deleteColumnFromProject,
-    changeColumnTitle
+    changeColumnTitle,
+    addProject
 } from '../lib/apiService';
+import Swal from 'sweetalert2';
 
 //Actions constants.
 const ADD_PROJECT = 'ADD_PROJECT';
@@ -34,6 +36,7 @@ const defaultProjectsState = {
     columnOrder: [],
     selectedProjectId: '',
     selectedProjectTitle: '',
+    projectsQty: 0,
 };
 
 const projectsReducer = (state, action) => {
@@ -187,10 +190,12 @@ const projectsReducer = (state, action) => {
     }
 
     if (action.type === GET_PROJECTS) {
-
+        
+        const projectsQty = action.payload.length;
         return {
             ...state,
-            projects: action.payload
+            projects: action.payload,
+            projectsQty: projectsQty
         };
 
     }
@@ -461,10 +466,27 @@ const ProjectsProvider = props => {
 
     const [projectState, dispatchProjectsAction] = useReducer(projectsReducer, defaultProjectsState);
 
-    console.log(projectState);
 
     const addProjectHandler = (title) => {
 
+        addProject(title).then(res => {
+            console.log(res);
+
+            Swal.fire({
+                title: `Project ${title} succesfully added`,
+                icon: 'success',
+                timer: 5000,
+                showConfirmButton: false,
+    
+            });
+
+            //TODO: Llamar a la funcion reducer
+
+        }).catch(err => {
+            console.log(err);
+        })
+
+        
     }
 
     const deleteProjectHandler = (id) => {
@@ -510,7 +532,7 @@ const ProjectsProvider = props => {
     const getProjectsHandler = userId => {
 
         getProjects(userId).then(res => {
-
+            
             dispatchProjectsAction({ type: GET_PROJECTS, payload: res });
 
         }).catch(err => {
@@ -626,8 +648,7 @@ const ProjectsProvider = props => {
     }
 
     const deleteColumnHandler = (columnId, tasks) => {
-        console.log(columnId);
-        console.log(tasks);
+    
         const tasksIds = tasks.map(task => task.id);
 
 
@@ -679,6 +700,7 @@ const ProjectsProvider = props => {
         addColumn: addColumnHandler,
         deleteColumn: deleteColumnHandler,
         changeColumnTitle: changeColumnTitleHandler,
+        addProject: addProjectHandler,
     };
 
     return (

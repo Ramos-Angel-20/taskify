@@ -5,8 +5,29 @@ const api = axios.create({
 });
 
 
-export const getProjects = async userId => {
+//TODO: Pasarle el userId de forma correcta
+export const addProject = async title => {
 
+    try {
+        
+        const response = await api.post('/projects', {
+            projectTitle: title,
+            userId: '74792b3b-ab74-4d03-a6e9-e9dd02881217'
+        });
+
+        if (response.data !== 201) {
+            throw new Error('An error occurred while creating the new project');
+        }
+
+        const result = response.data;
+        return result;
+    
+    } catch (error) {
+        return error.message;
+    }
+}
+
+export const getProjects = async userId => {
     try {
 
         const response = await api.get(`/projects/${userId}`);

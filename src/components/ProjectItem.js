@@ -23,7 +23,7 @@ const ProjectItem = ({ project }) => {
 
 
     return (
-        <div className='projectItem' onClick={projectRedirectHandler}>
+        <div className='projectItem'>
             <div className='projectItem__image'>
                 
             </div>
@@ -32,7 +32,7 @@ const ProjectItem = ({ project }) => {
                 {project.title}
             </div>
             <div className='projectItem__actions'>
-                <button className='projectItem__actions__btn view'>View</button>
+                <button className='projectItem__actions__btn view' onClick={projectRedirectHandler}>View</button>
                 <button className='projectItem__actions__btn delete'>Delete</button>
             </div>
         </div>
