@@ -12,7 +12,7 @@ export const addProject = async title => {
         
         const response = await api.post('/projects', {
             projectTitle: title,
-            userId: '74792b3b-ab74-4d03-a6e9-e9dd02881217'
+            userId: 'c3ec5417-ac83-45aa-b0ee-0d20381f23f0'
         });
 
         if (response.data !== 201) {

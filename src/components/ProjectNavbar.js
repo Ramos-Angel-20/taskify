@@ -7,11 +7,12 @@ import ProjectsContext from '../context/projects-context';
 
 const ProjectNavbar = () => {
     
-    const { selectedProjectTitle } = useContext(ProjectsContext);
+    const { selectedProjectTitle, resetSelectedProject } = useContext(ProjectsContext);
     const history = useHistory()
 
     const homeRedirectHandler = () => {
         history.replace('/projects');
+        resetSelectedProject();
     }
 
     return (

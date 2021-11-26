@@ -1,6 +1,6 @@
-import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
 import { HiDotsHorizontal } from 'react-icons/hi';
-import { GoAlert, GoPencil } from 'react-icons/go';
+import { GoPencil } from 'react-icons/go';
 import { BsTrashFill } from 'react-icons/bs';
 
 import { useState, useContext } from 'react';
@@ -19,72 +19,80 @@ const ColumnTitle = ({ title, dragProps, onDelete, columnId }) => {
 
 
 
-    const columnDeleteHandler = () => {
-        toast.dismiss();
-        onDelete();
-    }
-
-
-
-
     const launchWarning = () => {
-
-        toast.dismiss(); // Limpiamos los toasts que esten en pantalla.
 
         setMenuIsOpened(false);
 
-        const toastId = toast(t => (
-            <div className='toast__warning'>
-                <p className='toast__warning__title'> <span> <GoAlert /> </span>Warning</p>
-                <p>This will delete all the tasks within the selected column</p>
-                <div className='toast__warning__actions'>
-                    <button className='toast__warning__delete' onClick={() => columnDeleteHandler()}>Delete</button>
-                    <button className='toast__warning__cancel' onClick={() => toast.dismiss(toastId)}>Cancel</button>
-                </div>
-            </div>
-        ), {
-            style: {
-                background: 'rgb(233, 227, 200)'
+        Swal.fire({
+            title: 'Warning',
+            text: 'This will delete all the tasks within the selected column',
+            icon: 'warning',
+            showConfirmButton: true,
+            confirmButtonColor: 'red',
+            confirmButtonText: 'Yes, delete it!',
+            showCancelButton: true,
+            cancelButtonColor: 'gray',
+            cancelButtonText: 'Cancel'
+        }).then(res => {
+            const { isConfirmed } = res;
+
+            if (isConfirmed) {
+                onDelete();
             }
+        })
+    }
+
+
+
+
+
+    // const toggleTitleBox = () => {
+    //     setTitleOptionSelected(prevState => !prevState);
+    // }
+
+
+    const launchChangeTitle = () => {
+        setMenuIsOpened(false);
+
+        Swal.fire({
+            title: 'Set a new title',
+            input: 'text',
+            inputAutoTrim: true,
+            inputValue: title,
+            confirmButtonText: 'Change!',
+            confirmButtonColor: '#38c938',
+            showCancelButton: true,
+            cancelButtonColor: 'gray',
+            cancelButtonText: 'Cancel'
+        }).then(res => {
+            
+            const {isConfirmed, value} = res;
+            
+            if (isConfirmed) {
+
+                if (value.length <= 3) {
+
+
+                    Swal.fire({
+                        title: 'Titles need to have at least 4 characters...',
+                        icon: 'error',
+                        timer: 3500,
+                        showConfirmButton: false,
+                    });
+                    
+                    return;
+                }
+
+
+                changeColumnTitle(value, columnId);
+            }
+
+            
+
         });
     }
 
-
-
-
-
-
-    const newTitleChangeHandler = e => {
-        setNewTitle(e.target.value);
-    }
-
-
-
-
-
-    const toggleTitleBox = () => {
-        setTitleOptionSelected(prevState => !prevState);
-    }
-
-
-
-
-
-
-    const confirmTitleChange = () => {
-        if (newTitle.length < 1) { // TODO: Agregar validación... 
-            return;
-        }
-
-        changeColumnTitle(newTitle, columnId);
-        toggleTitleBox();
-    }
-
-
-    /*
-        REVISAR QUE EL BOTON DE "DOTS" NO TENGA BUGS.
-        AGREGAR UN BACKDROP INVISIBLE PARA SIMULAR UN BLUR DEL MENU QUE SALE DEL BOTON DOTS.
-    */
+    
     return (
         <>
             <div {...dragProps} className='projectTitle'>
@@ -95,16 +103,17 @@ const ColumnTitle = ({ title, dragProps, onDelete, columnId }) => {
 
                 {menuIsOpened && (
                     <div className='projectTitle__menu'>
-                        <p className='projectTitle__menu__title-opt' onClick={() => {
+                        {/* <p className='projectTitle__menu__title-opt' onClick={() => {
                             setMenuIsOpened(false);
                             setTitleOptionSelected(true);
-                            toast.dismiss();
-                        }}>Change title <span><GoPencil /></span></p>
+
+                        }}>Change title <span><GoPencil /></span></p> */}
+                        <p className='projectTitle__menu__title-opt' onClick={() => launchChangeTitle()}>Change title <span><GoPencil /></span></p>
                         <p className='projectTitle__menu__delete-opt' onClick={() => launchWarning()}>Delete <span><BsTrashFill /></span></p>
                     </div>
                 )}
             </div>
-            {titleOptionSelected && (
+            {/* {titleOptionSelected && (
                 <>
                     <Backdrop onClose={toggleTitleBox} />
 
@@ -117,7 +126,7 @@ const ColumnTitle = ({ title, dragProps, onDelete, columnId }) => {
                         </div>
                     </div>
                 </>
-            )}
+            )} */}
         </>
     )
 }
