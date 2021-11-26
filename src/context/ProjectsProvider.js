@@ -58,8 +58,21 @@ const projectsReducer = (state, action) => {
 
     if (action.type === ADD_PROJECT) {
 
+        const newProject = {
+            id: action.payload.id,
+            title: action.payload.title
+        }
+
+        const newProjects = [ ...state.projects ];
+        newProjects.push(newProject);
+
+
+        const newProjectsQty = state.projectsQty + 1;
+
         return {
-            ...state
+            ...state,
+            projects: newProjects,
+            projectsQty: newProjectsQty
         };
     }
 
@@ -485,23 +498,40 @@ const ProjectsProvider = props => {
     const addProjectHandler = (title) => {
 
         addProject(title).then(res => {
-            console.log(res);
+
+            if (res.createdProject) {
+
+                dispatchProjectsAction({ type: ADD_PROJECT, payload: res.createdProject });
+
+                Swal.fire({
+                    title: `Project ${title} succesfully added`,
+                    icon: 'success',
+                    timer: 2500,
+                    showConfirmButton: false,
+
+                });
+
+                return;
+            }
 
             Swal.fire({
-                title: `Project ${title} succesfully added`,
-                icon: 'success',
-                timer: 5000,
+                icon: 'error',
+                title: 'Something went wrong',
                 showConfirmButton: false,
-
+                timer: 3000
             });
 
-            //TODO: Llamar a la funcion reducer
 
         }).catch(err => {
             console.log(err);
-        })
 
-
+            Swal.fire({
+                icon: 'error',
+                title: 'Something went wrong',
+                showConfirmButton: false,
+                timer: 3000
+            });
+        });
     }
 
     const deleteProjectHandler = (id) => {
@@ -547,7 +577,7 @@ const ProjectsProvider = props => {
     const getProjectsHandler = userId => {
 
         getProjects(userId).then(res => {
-            
+
             dispatchProjectsAction({ type: GET_PROJECTS, payload: res });
 
         }).catch(err => {
@@ -716,6 +746,7 @@ const ProjectsProvider = props => {
         changeColumnTitle: changeColumnTitleHandler,
         addProject: addProjectHandler,
         resetSelectedProject: resetSelectedProjectHandler,
+        deleteProject: deleteProjectHandler,
     };
 
     return (

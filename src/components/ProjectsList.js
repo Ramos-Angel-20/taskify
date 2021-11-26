@@ -1,12 +1,12 @@
 import ProjectItem from '../components/ProjectItem';
 
-const ProjectsList = ({ projects }) => {
-    
+const ProjectsList = ({ projects }) => {  
+
     return (
         <div className='projectsList'>
             {
-                projects.map(project => <ProjectItem key={project.id} project={project}/>)
-            }            
+                projects.map(project => <ProjectItem key={project.id} project={project} />)
+            }
         </div>
     );
 }
