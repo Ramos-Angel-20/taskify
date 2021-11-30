@@ -30,6 +30,8 @@ const ProjectItem = ({ project }) => {
             cancelButtonText: 'Cancel'
         }).then(res => {
             const { isConfirmed } = res;
+
+            deleteProject(project.id);
         });
 
     }

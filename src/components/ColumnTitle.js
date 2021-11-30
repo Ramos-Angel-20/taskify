@@ -6,17 +6,12 @@ import { BsTrashFill } from 'react-icons/bs';
 import { useState, useContext } from 'react';
 
 import ProjectsContext from '../context/projects-context';
-import Backdrop from './Backdrop';
 
 const ColumnTitle = ({ title, dragProps, onDelete, columnId }) => {
 
     const [menuIsOpened, setMenuIsOpened] = useState(false);
-    const [newTitle, setNewTitle] = useState(title);
-    const [titleOptionSelected, setTitleOptionSelected] = useState(false);
 
     const { changeColumnTitle } = useContext(ProjectsContext);
-
-
 
 
     const launchWarning = () => {

@@ -15,7 +15,7 @@ const ProjectsPage = () => {
 
     useEffect(() => {
 
-        getProjects('553a5dfc-01c1-4064-b687-06d40eb4da3f');
+        getProjects('8beefc51-b324-41c4-8e09-97add55829ee');
 
     }, []);
 

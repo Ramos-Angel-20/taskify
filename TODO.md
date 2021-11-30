@@ -1,6 +1,6 @@
 - Funcionalidad principal para administrar los proyectos.
 [x] Crear funcionalidad para eliminar listas de un proyecto, con todo y las tasks de esa lista.
-[] Crear funcionalidad para eliminar un proyecto.
+[x] Crear funcionalidad para eliminar un proyecto.
 [x] Crear funcionalidad para editar el nombre de una lista.
 [] Crear funcionalidad para editar el nombre del proyecto.
 [] Intercambir el switch del reducer de ProjectsProvider por if-else, esto porque if-else tiene su propio scope.

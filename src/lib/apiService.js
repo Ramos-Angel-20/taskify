@@ -12,7 +12,7 @@ export const addProject = async title => {
         
         const response = await api.post('/projects', {
             projectTitle: title,
-            userId: '553a5dfc-01c1-4064-b687-06d40eb4da3f'
+            userId: '8beefc51-b324-41c4-8e09-97add55829ee'
         });
 
         if (response.status !== 201) {
@@ -175,9 +175,37 @@ export const changeColumnTitle = async (newTitle, columnId) => {
             newTitle
         });
 
+        if (response.status !== 201) {
+            throw new Error('An error ocurred while changing the column title...');
+        }
+
+
+        const result = response.data;
+        return result;
         
         
     } catch (error) {
-        
+        return error.message;
     }
+}
+
+export const deleteProject = async projectId => {
+
+    try {
+        
+        const response = await api.delete(`/projects/${projectId}`);
+
+        if (response.status !== 201) {
+            throw new Error(`Something went wrong while deleting the project with id: ${projectId}`);
+        }
+
+        console.log(response);
+        const result = response.data;
+        return result;
+
+    } catch (error) {
+        console.log(error);
+        return error.message;
+    }
+
 }

@@ -9,7 +9,8 @@ import {
     addListToProject,
     deleteColumnFromProject,
     changeColumnTitle,
-    addProject
+    addProject,
+    deleteProject
 } from '../lib/apiService';
 import Swal from 'sweetalert2';
 
@@ -63,7 +64,7 @@ const projectsReducer = (state, action) => {
             title: action.payload.title
         }
 
-        const newProjects = [ ...state.projects ];
+        const newProjects = [...state.projects];
         newProjects.push(newProject);
 
 
@@ -130,12 +131,21 @@ const projectsReducer = (state, action) => {
     }
 
 
-    if (action.type === DELETE_PROJECT) {
+    if (action.type === DELETE_PROJECT) { //TODO: Vamos aqui
+
+        const { projectId } = action.payload;
+
+        const actualProjects = [...state.projects];
+        const newProjects = actualProjects.filter(project => project.id !== projectId);
+
+        const actualProjectsQty = state.projectsQty;
+        const newProjectsQty = actualProjectsQty - 1; 
 
         return {
-            ...state
-        }
-
+            ...state,
+            projects: newProjects,
+            projectsQty: newProjectsQty
+        };
     }
 
     if (action.type === DELETE_PROJECT_TASK) {
@@ -534,8 +544,20 @@ const ProjectsProvider = props => {
         });
     }
 
-    const deleteProjectHandler = (id) => {
+    const deleteProjectHandler = (id) => { //TODO: VAMOS AQUI
+        deleteProject(id).then(res => {
 
+            dispatchProjectsAction({
+                type: DELETE_PROJECT, payload: {
+                    projectId: id
+                }
+            });
+
+        }).catch(err => {
+
+            console.log(err);
+
+        });
     }
 
     const addTaskHandler = (columnId, description) => {
@@ -713,10 +735,9 @@ const ProjectsProvider = props => {
         });
     }
 
-    const changeColumnTitleHandler = (title, columnId) => { //TODO: VAMOS AQUI...
+    const changeColumnTitleHandler = (title, columnId) => {
 
         changeColumnTitle(title, columnId).then(res => {
-
 
             dispatchProjectsAction({
                 type: CHANGE_COLUMN_TITLE, payload: {
@@ -727,7 +748,11 @@ const ProjectsProvider = props => {
 
 
         }).catch(err => {
-            console.log(err);
+
+            Swal.fire({
+                icon: 'error',
+                text: 'An error ocurred while changing the column title'
+            });
         });
     }
 
